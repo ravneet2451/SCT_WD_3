@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Master - Select Level</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <main>
+            <!-- Level Selection Screen -->
+            <div id="level-screen" class="screen active">
+                <div class="level-content">
+                    <div class="header-section">
+                        <button id="back-btn" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <div class="player-welcome">
+                            <h1>Welcome, <span id="player-name-display">Champion</span>!</h1>
+                            <p>Choose your challenge level and category</p>
+                        </div>
+                    </div>
+                    
+                    <div class="selection-container">
+                        <div class="difficulty-section">
+                            <h2><i class="fas fa-chart-line"></i> Difficulty Level</h2>
+                            <div class="difficulty-options">
+                                <label class="difficulty-card">
+                                    <input type="radio" name="difficulty" value="easy" checked>
+                                    <div class="card-content">
+                                        <i class="fas fa-seedling"></i>
+                                        <span class="level-name">Easy</span>
+                                        <div class="level-details">
+                                            <small>5 Questions</small>
+                                            <small>Prize up to ₹25,000</small>
+                                            <small>Perfect for beginners</small>
+                                        </div>
+                                    </div>
+                                </label>
+                                <label class="difficulty-card">
+                                    <input type="radio" name="difficulty" value="medium">
+                                    <div class="card-content">
+                                        <i class="fas fa-fire"></i>
+                                        <span class="level-name">Medium</span>
+                                        <div class="level-details">
+                                            <small>7 Questions</small>
+                                            <small>Prize up to ₹1,00,000</small>
+                                            <small>Moderate challenge</small>
+                                        </div>
+                                    </div>
+                                </label>
+                                <label class="difficulty-card">
+                                    <input type="radio" name="difficulty" value="hard">
+                                    <div class="card-content">
+                                        <i class="fas fa-lightning-bolt"></i>
+                                        <span class="level-name">Hard</span>
+                                        <div class="level-details">
+                                            <small>10 Questions</small>
+                                            <small>Prize up to ₹10,00,000</small>
+                                            <small>Expert level challenge</small>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="category-section">
+                            <h2><i class="fas fa-tags"></i> Quiz Category</h2>
+                            <div class="category-grid">
+                                <label class="category-card">
+                                    <input type="radio" name="quiz-type" value="general" checked>
+                                    <div class="card-content">
+                                        <i class="fas fa-globe"></i>
+                                        <span>General Knowledge</span>
+                                        <small>History, Geography, Current Affairs</small>
+                                    </div>
+                                </label>
+                                <label class="category-card">
+                                    <input type="radio" name="quiz-type" value="science">
+                                    <div class="card-content">
+                                        <i class="fas fa-atom"></i>
+                                        <span>Science & Tech</span>
+                                        <small>Physics, Chemistry, Technology</small>
+                                    </div>
+                                </label>
+                                <label class="category-card">
+                                    <input type="radio" name="quiz-type" value="mixed">
+                                    <div class="card-content">
+                                        <i class="fas fa-random"></i>
+                                        <span>Mixed Categories</span>
+                                        <small>Variety of question types</small>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lifelines-preview">
+                        <h3><i class="fas fa-life-ring"></i> Available Lifelines</h3>
+                        <div class="lifelines-grid">
+                            <div class="lifeline-item">
+                                <i class="fas fa-cut"></i>
+                                <span>50:50</span>
+                                <small>Remove 2 wrong answers</small>
+                            </div>
+                            <div class="lifeline-item">
+                                <i class="fas fa-users"></i>
+                                <span>Audience Poll</span>
+                                <small>See what others think</small>
+                            </div>
+                            <div class="lifeline-item">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Hint</span>
+                                <small>Get a helpful clue</small>
+                            </div>
+                            <div class="lifeline-item">
+                                <i class="fas fa-forward"></i>
+                                <span>Skip</span>
+                                <small>Skip difficult questions</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="start-quiz-btn" class="btn btn-primary pulse">
+                        <i class="fas fa-play"></i> Start Quiz
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get player name from localStorage
+            const playerName = localStorage.getItem('quizPlayerName') || 'Champion';
+            document.getElementById('player-name-display').textContent = playerName;
+            
+            // If no player name, redirect back to index
+            if (!localStorage.getItem('quizPlayerName')) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            const backBtn = document.getElementById('back-btn');
+            const startQuizBtn = document.getElementById('start-quiz-btn');
+            
+            // Back button functionality
+            backBtn.addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+            
+            // Start quiz functionality
+            startQuizBtn.addEventListener('click', function() {
+                const selectedDifficulty = document.querySelector('input[name="difficulty"]:checked').value;
+                const selectedCategory = document.querySelector('input[name="quiz-type"]:checked').value;
+                
+                // Store selections in localStorage
+                localStorage.setItem('quizDifficulty', selectedDifficulty);
+                localStorage.setItem('quizCategory', selectedCategory);
+                
+                // Navigate to quiz page
+                window.location.href = 'quiz.html';
+            });
+            
+            // Add hover effects for cards
+            const cards = document.querySelectorAll('.difficulty-card, .category-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+
+    <style>
+        .level-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .player-welcome {
+            text-align: center;
+            flex-grow: 1;
+        }
+        
+        .player-welcome h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .player-welcome p {
+            color: #666;
+            font-size: 1.1rem;
+            margin: 0.5rem 0 0 0;
+        }
+        
+        .selection-container {
+            display: grid;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .difficulty-section h2,
+        .category-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+            font-size: 1.5rem;
+        }
+        
+        .difficulty-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .difficulty-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .difficulty-card input[type="radio"] {
+            display: none;
+        }
+        
+        .difficulty-card .card-content {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .difficulty-card input[type="radio"]:checked + .card-content {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.2);
+        }
+        
+        .difficulty-card .card-content i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .difficulty-card .level-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .level-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        
+        .level-details small {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .category-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category-card input[type="radio"] {
+            display: none;
+        }
+        
+        .category-card .card-content {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .category-card input[type="radio"]:checked + .card-content {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+        
+        .category-card .card-content i {
+            font-size: 2rem;
+            color: #667eea;
+        }
+        
+        .category-card .card-content span {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .category-card .card-content small {
+            color: #666;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        
+        .lifelines-preview {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .lifelines-preview h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        
+        .lifelines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        
+        .lifeline-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .lifeline-item i {
+            font-size: 1.5rem;
+            color: #4CAF50;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .lifeline-item span {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.3rem;
+            color: #333;
+        }
+        
+        .lifeline-item small {
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: block;
+            margin: 2rem auto 0;
+            width: fit-content;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        .btn-secondary:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @media (max-width: 768px) {
+            .level-content {
+                padding: 1rem;
+            }
+            
+            .header-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .player-welcome h1 {
+                font-size: 2rem;
+            }
+            
+            .difficulty-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .lifelines-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .screen {
+            display: none;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+    </style>
+</body>
+</html>

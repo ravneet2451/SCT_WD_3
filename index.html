@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Master - Welcome</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <main>
+            <!-- Welcome Screen -->
+            <div id="welcome-screen" class="screen active">
+                <div class="welcome-content">
+                    <div class="logo-container">
+                        <i class="fas fa-brain animated-icon"></i>
+                        <h1><i class="fas fa-trophy"></i> Quiz Master <i class="fas fa-crown"></i></h1>
+                        <p class="tagline">Test your knowledge and win virtual prizes!</p>
+                        <div class="features-preview">
+                            <div class="feature">
+                                <i class="fas fa-clock"></i>
+                                <span>Timed Questions</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-life-ring"></i>
+                                <span>4 Lifelines</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-coins"></i>
+                                <span>Virtual Prizes</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="player-setup">
+                        <div class="input-group">
+                            <label for="player-name">What's your name, Quiz Champion?</label>
+                            <input type="text" id="player-name" placeholder="Enter your name" maxlength="20" autofocus>
+                            <div class="input-hint">This will be displayed during your quiz journey</div>
+                        </div>
+                    </div>
+                    
+                    <button id="continue-btn" class="btn btn-primary pulse" disabled>
+                        <i class="fas fa-arrow-right"></i> Continue to Level Selection
+                    </button>
+                    
+                    <div class="game-info">
+                        <div class="info-card">
+                            <i class="fas fa-info-circle"></i>
+                            <h3>How to Play</h3>
+                            <ul>
+                                <li>Answer questions within the time limit</li>
+                                <li>Use lifelines wisely to help you</li>
+                                <li>Win virtual prizes for correct answers</li>
+                                <li>Challenge yourself with different difficulty levels</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Welcome page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const playerNameInput = document.getElementById('player-name');
+            const continueBtn = document.getElementById('continue-btn');
+            
+            // Enable continue button when name is entered
+            playerNameInput.addEventListener('input', function() {
+                const name = this.value.trim();
+                continueBtn.disabled = name.length === 0;
+                
+                if (name.length > 0) {
+                    continueBtn.classList.add('enabled');
+                } else {
+                    continueBtn.classList.remove('enabled');
+                }
+            });
+            
+            // Continue to level selection
+            continueBtn.addEventListener('click', function() {
+                const playerName = playerNameInput.value.trim();
+                if (playerName) {
+                    // Store player name in localStorage
+                    localStorage.setItem('quizPlayerName', playerName);
+                    // Navigate to level selection page
+                    window.location.href = 'level.html';
+                }
+            });
+            
+            // Allow Enter key to continue
+            playerNameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !continueBtn.disabled) {
+                    continueBtn.click();
+                }
+            });
+        });
+    </script>
+
+    <style>
+        .welcome-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .logo-container {
+            margin-bottom: 3rem;
+        }
+        
+        .animated-icon {
+            font-size: 4rem;
+            color: #4CAF50;
+            animation: pulse 2s infinite;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .logo-container h1 {
+            font-size: 2.5rem;
+            margin: 1rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .features-preview {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .feature i {
+            font-size: 1.5rem;
+            color: #4CAF50;
+        }
+        
+        .player-setup {
+            margin: 3rem 0;
+        }
+        
+        .input-group {
+            margin-bottom: 2rem;
+        }
+        
+        .input-group label {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .input-group input {
+            width: 100%;
+            max-width: 400px;
+            padding: 1rem;
+            font-size: 1.1rem;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            background: white;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .input-hint {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            margin: 1rem 0;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-primary.enabled:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .game-info {
+            margin-top: 3rem;
+        }
+        
+        .info-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .info-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .info-card ul {
+            text-align: left;
+            list-style: none;
+            padding: 0;
+        }
+        
+        .info-card li {
+            padding: 0.5rem 0;
+            color: #555;
+        }
+        
+        .info-card li:before {
+            content: "✓";
+            color: #4CAF50;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @media (max-width: 768px) {
+            .welcome-content {
+                padding: 1rem;
+            }
+            
+            .features-preview {
+                gap: 1rem;
+            }
+            
+            .feature {
+                flex: 1;
+                min-width: 120px;
+            }
+            
+            .logo-container h1 {
+                font-size: 2rem;
+            }
+            
+            .animated-icon {
+                font-size: 3rem;
+            }
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .screen {
+            display: none;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+    </style>
+</body>
+</html>

@@ -9,7 +9,7 @@ class QuizMaster {
         this.difficulty = 'easy';
         this.playerName = 'Quiz Champion';
         this.timer = null;
-        this.timeLeft = 5;
+        this.timeLeft = 10;
         this.lifelines = {
             fiftyFifty: true,
             audience: true,
@@ -461,7 +461,7 @@ class QuizMaster {
         const question = this.questions[this.currentQuestionIndex];
         
         // Reset timer
-        this.timeLeft = 5;
+        this.timeLeft = 10;
         this.startTimer();
         
         // Update progress
